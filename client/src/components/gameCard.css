@@ -1,0 +1,59 @@
+.card-detail {
+    width: 350px;
+    border: 2px solid gray;
+    border-radius: 15px;
+    background-color: lightgray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    width: 100%;
+}
+
+li {
+    color: blue;
+}
+
+li span {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: black;
+    margin-right: 5px;
+}
+
+button {
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 11px;
+    transition: all 300ms;
+    margin-top: 20px;
+}
+
+button:hover {
+    transform: translateY(-3px);
+}
+
+button:focus {
+    transform: translateY(0px) scale(0.95);
+}
+
+.bgc-negro {
+    background-color: black;
+    color: white;
+}
+
+.dog-detail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}

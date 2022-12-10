@@ -1,0 +1,61 @@
+.danger {
+    color: red;
+    font-size: 10px;
+    display: inline;
+    margin: 0;
+}
+
+.button-form {
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 11px;
+    transition: all 300ms;
+    margin-top: 20px;
+    background-color: black;
+    color: white;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form-container form {
+    width: 100%;
+    max-width: 425px;
+    border: 1px solid lightgrey;
+    padding: 20px;
+    background-color: lightgray;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.form-container form div {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container form div label {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.form-container form div input {
+    padding: 5px;
+    outline: none;
+    border-radius: 11px;
+    border: none;
+}
+
+.form-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.5px;
+}

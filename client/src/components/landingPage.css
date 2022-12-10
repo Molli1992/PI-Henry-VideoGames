@@ -1,0 +1,21 @@
+.landing-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url("../img/img-videojuegos.jfif");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.button-home {
+    border: none;
+    background-color: white;
+    color: black;
+    text-transform: uppercase;
+    font-size: 24px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
