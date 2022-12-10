@@ -1,4 +1,4 @@
-import "./DogCard.css";
+import "./gameCard.css";
 import { Link } from "react-router-dom";
 import React from 'react';
 import { useParams } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { getVideogamesDetail } from "../store/actions";
 
 
-export default function DogCard() {
+export default function GameCard() {
 
     const dispatch = useDispatch();
 
@@ -21,6 +21,7 @@ export default function DogCard() {
 
     const game = useSelector((state) => state?.videogamesDetail);
 
+
     if (Array.isArray(game)) {
 
         console.log(game);
@@ -32,7 +33,7 @@ export default function DogCard() {
                 <article className="card-detail">
 
                     <div className="card-header">
-                        <img src="" />
+                        <img src={game[0].imagen} />
                     </div>
 
                     <div>
@@ -41,32 +42,32 @@ export default function DogCard() {
 
                             <li>
                                 <span>Nombre: </span>
-                                {game.nombre}
+                                {game[0].nombre}
                             </li>
 
                             <li>
                                 <span>Genero: </span>
-                                {game.genero}
+                                {game[0].genero}
                             </li>
 
                             <li>
                                 <span>Descripcion: </span>
-                                {game.descripcion}
+                                {game[0].descripcion}
                             </li>
 
                             <li>
                                 <span>Fecha de lanzamiento: </span>
-                                {game.fecha_de_lanzamiento}
+                                {game[0].fecha_de_lanzamiento}
                             </li>
 
                             <li>
                                 <span>Rating: </span>
-                                {game.rating}
+                                {game[0].rating}
                             </li>
 
                             <li>
                                 <span>Plataformas </span>
-                                {game.plataforma}
+                                {game[0].plataformas}
                             </li>
 
                         </ul>

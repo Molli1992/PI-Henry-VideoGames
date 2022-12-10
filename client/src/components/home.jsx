@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import "./home.css";
 import HomeCard from './homeCard';
 import { Link } from 'react-router-dom';
-import { getGames, getGenres } from "../Actions/index";
+import { getGames, getGenres } from "../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Home(props) {
@@ -182,7 +182,7 @@ export default function Home(props) {
 
     return (
 
-        <div>
+        <div className='home-color'>
 
             <div className='home-banner'>
                 <h1>PI-Henry-Video Games</h1>
@@ -202,7 +202,7 @@ export default function Home(props) {
                     <div className='home-page'>
 
                         <div>
-                            <label>Busca tu perro</label>
+                            <label>Busca tu juego</label>
                             <input placeholder='busca por nombre' name='search'
                                 onChange={handleSearchNombre} />
                         </div>

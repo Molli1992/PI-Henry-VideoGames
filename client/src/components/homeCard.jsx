@@ -1,4 +1,4 @@
-import "./HomeCard.css";
+import "./homeCard.css";
 import React from 'react';
 
 function HomeCard(props) {
