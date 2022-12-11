@@ -1,11 +1,11 @@
 .home-color {
 
-background-color: black;
+background-color: rgb(0, 0, 10);
 
 }
 
 .home-banner {
-    height: 300px;
+    height: 400px;
     background-image: url("../img/imagen-home.jpg");
     background-position: center;
     background-size: cover;
@@ -17,9 +17,8 @@ background-color: black;
     flex-direction: column;
 }
 
-.home-banner h1,
-.home-banner h3 {
-    color: white;
+.home-banner h1 {
+    color: lightgrey;
     text-shadow: 0px 30px 30px rgba(0, 0, 0, 0.3);
 }
 
@@ -49,6 +48,7 @@ main {
 }
 
 .home-paginado {
+    color: aqua;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -82,8 +82,8 @@ button:focus {
 }
 
 .bgc-negro {
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
 }
 
 .bgc-gris {

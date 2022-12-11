@@ -57,9 +57,9 @@ router.get("/videogames/:id", async (req, res) => {
 
 router.post("/videogames", async (req, res) => {
 
-    const { nombre, descripcion, fecha_de_lanzamiento, rating, plataformas } = req.body;
+    const { nombre, descripcion, fecha_de_lanzamiento, rating, plataformas, generos } = req.body;
 
-    if (!nombre || !descripcion || !fecha_de_lanzamiento || !rating || !plataformas) {
+    if (!nombre || !descripcion || !fecha_de_lanzamiento || !rating || !plataformas || !generos) {
         return res.status(404).send("Falta enviar datos obligatorios");
     }
 

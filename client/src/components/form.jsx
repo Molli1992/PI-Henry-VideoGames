@@ -18,31 +18,43 @@ function validate(input) {
     }
 
     if (!input.descripcion) {
-        errors.descripcion = 'se requiere peso min';
-    } else if (isNaN(input.descripcion)) {
-        errors.descripcion = 'peso min incorrecto';
-    } else if (input.descripcion < 1) {
-        errors.descripcion = 'debe ser mayor a 0'
+        errors.descripcion = 'se requiere el descripcion';
+    } else if (typeof input.descripcion !== "string") {
+        errors.descripcion = 'descripcion debe ser texto';
+    } else if (input.descripcion.length < 4) {
+        errors.descripcion = "debe contener al menos 4 letras"
     }
 
     if (!input.fecha_de_lanzamiento) {
-        errors.fecha_de_lanzamiento = 'se requiere peso max';
-    } else if (isNaN(input.fecha_de_lanzamiento)) {
-        errors.fecha_de_lanzamiento = 'peso max incorrecto';
-    } else if (input.fecha_de_lanzamiento >= 100) {
-        errors.fecha_de_lanzamiento = 'debe ser menor a 100'
-    } else if (input.fecha_de_lanzamiento <= 1) {
-        errors.fecha_de_lanzamiento = 'debe ser mayor a 1'
+        errors.fecha_de_lanzamiento = 'se requiere fecha';
+    } else if (input.fecha_de_lanzamiento.length < 8) {
+        errors.fecha_de_lanzamiento = "debe contener al menos 8 caracteres"
     }
 
 
 
     if (!input.rating) {
-        errors.rating = 'se requiere peso min';
+        errors.rating = 'se requiere rating';
     } else if (isNaN(input.rating)) {
-        errors.rating = 'peso min incorrecto';
-    } else if (input.rating < 1) {
-        errors.rating = 'debe ser mayor a 0'
+        errors.rating = 'rating incorrecta (ej 4.57)';
+    } else if (input.rating.length < 4) {
+        errors.rating = "debe contener al menos 4 caracteres"
+    }
+
+
+    if (!input.generos) {
+        errors.generos = 'se requiere el genero';
+    } else if (typeof input.generos !== "string") {
+        errors.generos = 'genero debe ser texto';
+    } else if (input.generos.length < 4) {
+        errors.generos = "debe contener al menos 4 letras"
+    }
+
+
+    if (!input.plataformas) {
+        errors.plataformas = 'se requiere el plataforma';
+    } else if (input.plataformas.length < 4) {
+        errors.plataformas = "debe contener al menos 4 letras"
     }
 
     return errors;
@@ -54,7 +66,9 @@ export default function Form() {
         nombre: "",
         descripcion: "",
         fecha_de_lanzamiento: "",
-        rating: ""
+        rating: "",
+        generos: "",
+        plataformas: ""
     });
 
     const [errors, setErrors] = React.useState({});
@@ -121,6 +135,24 @@ export default function Form() {
                         <input type="text" name="rating" value={input.rating}
                             onChange={handleInputChange} />
                         {errors.rating && (<p className="danger">{errors.rating}</p>)}
+                    </div>
+                </div>
+
+                <div>
+                    <label>Generos:</label>
+                    <div className='input-container'>
+                        <input type="text" name="generos" value={input.generos}
+                            onChange={handleInputChange} />
+                        {errors.generos && (<p className="danger">{errors.generos}</p>)}
+                    </div>
+                </div>
+
+                <div>
+                    <label>Plataformas:</label>
+                    <div className='input-container'>
+                        <input type="text" name="plataformas" value={input.plataformas}
+                            onChange={handleInputChange} />
+                        {errors.plataformas && (<p className="danger">{errors.plataformas}</p>)}
                     </div>
                 </div>
 

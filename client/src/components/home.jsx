@@ -185,8 +185,7 @@ export default function Home(props) {
         <div className='home-color'>
 
             <div className='home-banner'>
-                <h1>PI-Henry-Video Games</h1>
-                <h3>Games</h3>
+                <h1 className='h-1'>PI-Henry-Video Games</h1>
             </div>
 
             <main>
