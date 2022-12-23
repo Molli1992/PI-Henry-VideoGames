@@ -21,15 +21,15 @@ const populate = async function () {
                             nombre: juego.name,
                             descripcion: juego.tags.map((tag) => {
                                 return tag.name || "not found"
-                             }).join(" ").slice(0, 250),
+                             }).join(", ").slice(0, 250),
                             fecha_de_lanzamiento: juego.released,
                             rating: juego.rating,
                             plataformas: juego.platforms.map((plataforma) => {
                                return plataforma.platform.name || "not found"
-                            }).join(" "),
+                            }).join(", "),
                             genero: juego.genres.map((genre) => {
                                 return genre.name || "not found"
-                             }).join(" "),
+                             }).join(", "),
                             imagen: juego.background_image
                         }
         

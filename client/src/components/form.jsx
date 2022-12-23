@@ -42,12 +42,12 @@ function validate(input) {
     }
 
 
-    if (!input.generos) {
-        errors.generos = 'se requiere el genero';
-    } else if (typeof input.generos !== "string") {
-        errors.generos = 'genero debe ser texto';
-    } else if (input.generos.length < 4) {
-        errors.generos = "debe contener al menos 4 letras"
+    if (!input.genero) {
+        errors.genero = 'se requiere el genero';
+    } else if (typeof input.genero !== "string") {
+        errors.genero = 'genero debe ser texto';
+    } else if (input.genero.length < 4) {
+        errors.genero = "debe contener al menos 4 letras"
     }
 
 
@@ -67,7 +67,7 @@ export default function Form() {
         descripcion: "",
         fecha_de_lanzamiento: "",
         rating: "",
-        generos: "",
+        genero: "",
         plataformas: ""
     });
 
@@ -141,9 +141,9 @@ export default function Form() {
                 <div>
                     <label>Generos:</label>
                     <div className='input-container'>
-                        <input type="text" name="generos" value={input.generos}
+                        <input type="text" name="genero" value={input.genero}
                             onChange={handleInputChange} />
-                        {errors.generos && (<p className="danger">{errors.generos}</p>)}
+                        {errors.genero && (<p className="danger">{errors.genero}</p>)}
                     </div>
                 </div>
 

@@ -57,45 +57,35 @@ router.get("/videogames/:id", async (req, res) => {
 
 router.post("/videogames", async (req, res) => {
 
-    const { nombre, descripcion, fecha_de_lanzamiento, rating, plataformas, generos } = req.body;
+    const { nombre, descripcion, fecha_de_lanzamiento, rating, plataformas, genero } = req.body;
 
-    if (!nombre || !descripcion || !fecha_de_lanzamiento || !rating || !plataformas || !generos) {
+    if (!nombre || !descripcion || !fecha_de_lanzamiento || !rating || !plataformas || !genero) {
         return res.status(404).send("Falta enviar datos obligatorios");
     }
 
-    for (let i = 1; i < 6; i++) {
+    console.log(req.body);
 
-        fetch(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=${i}`)
-        .then(response => response.json())
-        .then(async json => {
-    
+
             try {
     
-                const todosLosJuegos = json;
-                const ultimoIDExterno = todosLosJuegos.results.length + 1;
                 const juegosInternos = await Videogame.findAll();
                 const ultimoIDInterno = juegosInternos.length + 1;
 
-                console.log(ultimoIDExterno);
                 console.log(ultimoIDInterno);
         
                 const juego = await Videogame.create({
-                    ...req.body, id: ultimoIDExterno + ultimoIDInterno
+                    ...req.body, id: ultimoIDInterno
                 });
         
                 console.log(juego);
-                res.status(201).json(juego);
+                return res.status(201).json(juego);
         
             } catch (error) {
                 console.log(error);
-                res.status(404).send("Error en alguno de los datos provistos");
+                return res.status(404).send("Error en alguno de los datos provistos");
             }
             
-        })
-        
-    }
-  
-});
+        });
 
 router.get("/genres", async (req, res) => {
 
