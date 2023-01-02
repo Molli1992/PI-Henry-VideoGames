@@ -12,7 +12,7 @@ export default function Home(props) {
     useEffect(() => {
 
         dispatch(getGames());
-        dispatch(getGenres())
+        dispatch(getGenres());
 
     }, [dispatch]);
 

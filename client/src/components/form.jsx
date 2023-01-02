@@ -53,7 +53,6 @@ export default function Form() {
     }, [dispatch]);
 
 
-
     const allGames = useSelector((state) => state?.videogames);
     const genres = useSelector((state) => state?.genres);
 
@@ -79,7 +78,9 @@ export default function Form() {
     var BorrarGenero;
     var BorrarPlataformas;
 
-    if (Array.isArray(allGames) && allGames.length) {
+    if (Array.isArray(allGames) && genres.length > 5) {
+
+        //console.log(genres);
 
         ArrayPlataformas = [];
     
@@ -92,6 +93,28 @@ export default function Form() {
         SplitPlataformas = StringPlataformas.split(",");
     
         SetPlataformas = [...new Set(SplitPlataformas)];
+
+        SetPlataformas.sort((a, b) => {
+
+            if (a > b) {
+                return 1;
+            }
+            if (b > a) {
+                return -1;
+            }
+            return 0;
+        });
+
+        genres.sort((a, b) => {
+
+            if (a.nombre > b.nombre) {
+                return 1;
+            }
+            if (b.nombre > a.nombre) {
+                return -1;
+            }
+            return 0;
+        });
     
         /*console.log(ArrayPlataformas);
         console.log(StringPlataformas);
@@ -113,11 +136,18 @@ export default function Form() {
         };
     
         handleSubmit = (e) => {
-    
             axios.post("http://localhost:3001/videogames", input)
                 .then(res => console.log(res.data))
-                .cath(err => console.log(err))
-    
+                .catch(err => console.log(err))
+
+                setInput({
+                    nombre: "",
+                    descripcion: "",
+                    fecha_de_lanzamiento: "",
+                    rating: "",
+                    genero: "",
+                    plataformas: ""
+                });
         };
     
         onChangeGeneros = (e) => {
@@ -153,7 +183,7 @@ export default function Form() {
                 plataformas: input.plataformas.slice(0, input.plataformas.length -1)
             });
         };
-    
+
                 return (
                     <div className='form-container'>
             
@@ -197,8 +227,9 @@ export default function Form() {
                                 </div>
                             </div>
             
-                            <label>Encontra tu genero:</label>
                             <select onChange={onChangeGeneros}>
+
+                                <option>Encontra tu genero:</option>
             
                                 {genres && genres.map((g) => {
                                   return (
@@ -211,8 +242,10 @@ export default function Form() {
                             </select>
                             {input.genero}  <button onClick={BorrarGenero}>borrar</button>
             
-                            <label>Encontra tu plataforma:</label>
+
                             <select onChange={onChangePlatafromas}>
+
+                              <option>Encontra tu plataforma:</option>
             
                               {SetPlataformas && SetPlataformas.map((p) => {
                                 return (
@@ -226,7 +259,9 @@ export default function Form() {
                             {input.plataformas}  <button onClick={BorrarPlataformas}>borrar</button>
             
                             <div className='form-actions'>
+                                <Link to="/form">
                                 <button onClick={handleSubmit} className='button-form'>Enviar</button>
+                                </Link>
                                 <Link to="/home">
                                     <button className='button-form'>Home</button>
                                 </Link>
