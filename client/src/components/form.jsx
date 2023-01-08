@@ -66,14 +66,14 @@ export default function Form() {
     });
 
     const [errors, setErrors] = useState({});
-    
+
     var handleInputChange;
     var handleSubmit;
     var onChangeGeneros;
     var onChangePlatafromas;
     var StringPlataformas;
     var SplitPlataformas;
-    var SetPlataformas;
+    var SetPlataformas = [];
     var ArrayPlataformas;
     var BorrarGenero;
     var BorrarPlataformas;
@@ -83,16 +83,22 @@ export default function Form() {
         //console.log(genres);
 
         ArrayPlataformas = [];
-    
+
         for (let i = 0; i < allGames.length; i++) {
-            ArrayPlataformas.push(allGames[i].plataformas) 
+            ArrayPlataformas.push(allGames[i].plataformas)
         };
-    
+
         StringPlataformas = ArrayPlataformas.toString();
-    
+
         SplitPlataformas = StringPlataformas.split(",");
-    
+
         SetPlataformas = [...new Set(SplitPlataformas)];
+
+        const indexToSlice = SetPlataformas.lastIndexOf('Android');
+        const arrayMasCorto = [];
+        for (let i = 0; i < indexToSlice; i++) {
+            arrayMasCorto.push(SetPlataformas[i])
+        }
 
         SetPlataformas.sort((a, b) => {
 
@@ -103,7 +109,11 @@ export default function Form() {
                 return -1;
             }
             return 0;
-        });
+        })
+
+
+
+        SetPlataformas = arrayMasCorto;
 
         genres.sort((a, b) => {
 
@@ -115,41 +125,47 @@ export default function Form() {
             }
             return 0;
         });
-    
+
         /*console.log(ArrayPlataformas);
         console.log(StringPlataformas);
         console.log(SplitPlataformas);
         console.log(SetPlataformas);*/
-    
+
         handleInputChange = (e) => {
-    
+
             setInput({
                 ...input,
                 [e.target.name]: e.target.value
             });
-    
+
             setErrors(validate({
                 ...input,
                 [e.target.name]: e.target.value
             }));
-    
+
         };
-    
+
         handleSubmit = (e) => {
+            e.preventDefault();
             axios.post("http://localhost:3001/videogames", input)
                 .then(res => console.log(res.data))
                 .catch(err => console.log(err))
 
-                setInput({
-                    nombre: "",
-                    descripcion: "",
-                    fecha_de_lanzamiento: "",
-                    rating: "",
-                    genero: "",
-                    plataformas: ""
-                });
+            setInput({
+                nombre: "",
+                descripcion: "",
+                fecha_de_lanzamiento: "",
+                rating: "",
+                genero: "",
+                plataformas: ""
+            })
+
+            const selectGeneros = document.getElementById('select-generos');
+            const selectPlataformas = document.getElementById('select-plataformas');
+            selectGeneros.value = "";
+            selectPlataformas.value = "";
         };
-    
+
         onChangeGeneros = (e) => {
             setInput({
                 ...input,
@@ -157,122 +173,121 @@ export default function Form() {
             });
             console.log(input.genero)
         };
-    
+
         onChangePlatafromas = (e) => {
             setInput({
                 ...input,
-                plataformas: `${input.plataformas}, ${e.target.value}` 
+                plataformas: `${input.plataformas}, ${e.target.value}`
             });
             console.log(input.plataformas)
         };
-    
+
         BorrarGenero = (e) => {
             e.preventDefault();
             console.log(input.genero)
             setInput({
                 ...input,
-                genero: input.genero.slice(0, input.genero.length -1)
+                genero: input.genero.slice(0, input.genero.length - 1)
             });
         };
-    
+
         BorrarPlataformas = (e) => {
             e.preventDefault();
             console.log(input.plataformas)
             setInput({
                 ...input,
-                plataformas: input.plataformas.slice(0, input.plataformas.length -1)
+                plataformas: input.plataformas.slice(0, input.plataformas.length - 1)
             });
         };
+    }
 
-                return (
-                    <div className='form-container'>
-            
-                        <form>
-            
-                            <h2>Crea tu juego</h2>
-            
-                            <div>
-                                <label>Nombre:</label>
-                                <div className="input-container">
-                                    <input type="text" name="nombre" value={input.nombre}
-                                        onChange={handleInputChange} />
-                                    {errors.nombre && (<p className="danger">{errors.nombre}</p>)}
-                                </div>
-                            </div>
-            
-                            <div>
-                                <label>Descripcion:</label>
-                                <div className='input-container'>
-                                    <input type="text" name="descripcion" value={input.descripcion}
-                                        onChange={handleInputChange} />
-                                    {errors.descripcion && (<p className="danger">{errors.descripcion}</p>)}
-                                </div>
-                            </div>
-            
-                            <div>
-                                <label>Fecha de lanzamiento:</label>
-                                <div className='input-container'>
-                                    <input type="text" name="fecha_de_lanzamiento" value={input.fecha_de_lanzamiento}
-                                        onChange={handleInputChange} />
-                                    {errors.fecha_de_lanzamiento && (<p className="danger">{errors.fecha_de_lanzamiento}</p>)}
-                                </div>
-                            </div>
-            
-                            <div>
-                                <label>Rating:</label>
-                                <div className='input-container'>
-                                    <input type="text" name="rating" value={input.rating}
-                                        onChange={handleInputChange} />
-                                    {errors.rating && (<p className="danger">{errors.rating}</p>)}
-                                </div>
-                            </div>
-            
-                            <select onChange={onChangeGeneros}>
 
-                                <option>Encontra tu genero:</option>
-            
-                                {genres && genres.map((g) => {
-                                  return (
-                                       <option>
-                                          {g.nombre}
-                                       </option>
-                                        );
-                                })}
-            
-                            </select>
-                            {input.genero}  <button onClick={BorrarGenero}>borrar</button>
-            
+    return (
+        <div className='form-container'>
 
-                            <select onChange={onChangePlatafromas}>
+            <form>
 
-                              <option>Encontra tu plataforma:</option>
-            
-                              {SetPlataformas && SetPlataformas.map((p) => {
-                                return (
-                                    <option>
-                                     {p}
-                                   </option>
-                                  );
-                               })}
-            
-                            </select>
-                            {input.plataformas}  <button onClick={BorrarPlataformas}>borrar</button>
-            
-                            <div className='form-actions'>
-                                <Link to="/form">
-                                <button onClick={handleSubmit} className='button-form'>Enviar</button>
-                                </Link>
-                                <Link to="/home">
-                                    <button className='button-form'>Home</button>
-                                </Link>
-                            </div>
-            
-                        </form>
-            
+                <h2>Crea tu juego</h2>
+
+                <div>
+                    <label>Nombre:</label>
+                    <div className="input-container">
+                        <input type="text" name="nombre" value={input.nombre}
+                            onChange={handleInputChange} />
+                        {errors.nombre && (<p className="danger">{errors.nombre}</p>)}
                     </div>
-            
-                );
-                
-        }
+                </div>
+
+                <div>
+                    <label>Descripcion:</label>
+                    <div className='input-container'>
+                        <input type="text" name="descripcion" value={input.descripcion}
+                            onChange={handleInputChange} />
+                        {errors.descripcion && (<p className="danger">{errors.descripcion}</p>)}
+                    </div>
+                </div>
+
+                <div>
+                    <label>Fecha de lanzamiento:</label>
+                    <div className='input-container'>
+                        <input type="text" name="fecha_de_lanzamiento" value={input.fecha_de_lanzamiento}
+                            onChange={handleInputChange} />
+                        {errors.fecha_de_lanzamiento && (<p className="danger">{errors.fecha_de_lanzamiento}</p>)}
+                    </div>
+                </div>
+
+                <div>
+                    <label>Rating:</label>
+                    <div className='input-container'>
+                        <input type="text" name="rating" value={input.rating}
+                            onChange={handleInputChange} />
+                        {errors.rating && (<p className="danger">{errors.rating}</p>)}
+                    </div>
+                </div>
+
+                <select onChange={onChangeGeneros} id="select-generos">
+
+                    <option value="">Encontra tu genero:</option>
+
+                    {genres && genres.map((g) => {
+                        return (
+                            <option>
+                                {g.nombre}
+                            </option>
+                        );
+                    })}
+
+                </select>
+                {input.genero}  <button onClick={BorrarGenero}>borrar</button>
+
+
+                <select onChange={onChangePlatafromas} id="select-plataformas">
+
+                    <option value="">Encontra tu plataforma:</option>
+
+                    {SetPlataformas && SetPlataformas.map((p) => {
+                        return (
+                            <option>
+                                {p}
+                            </option>
+                        );
+                    })}
+
+                </select>
+                {input.plataformas}  <button onClick={BorrarPlataformas}>borrar</button>
+
+                <div className='form-actions'>
+                    <button onClick={handleSubmit} className='button-form'>Enviar</button>
+                    <Link to="/home">
+                        <button className='button-form'>Home</button>
+                    </Link>
+                </div>
+
+            </form>
+
+        </div>
+
+    );
+
 
 };
