@@ -77,6 +77,7 @@ export default function Form() {
     var ArrayPlataformas;
     var BorrarGenero;
     var BorrarPlataformas;
+    var SetPlataformasTrim;
 
     if (Array.isArray(allGames) && genres.length > 5) {
 
@@ -94,11 +95,11 @@ export default function Form() {
 
         SetPlataformas = [...new Set(SplitPlataformas)];
 
-        const indexToSlice = SetPlataformas.lastIndexOf('Android');
-        const arrayMasCorto = [];
-        for (let i = 0; i < indexToSlice; i++) {
-            arrayMasCorto.push(SetPlataformas[i])
-        }
+        SetPlataformasTrim = SetPlataformas.map(string => {
+            return string.trim()
+        })
+
+        SetPlataformas = [...new Set(SetPlataformasTrim)];
 
         SetPlataformas.sort((a, b) => {
 
@@ -111,9 +112,7 @@ export default function Form() {
             return 0;
         })
 
-
-
-        SetPlataformas = arrayMasCorto;
+        //console.log(SetPlataformas);
 
         genres.sort((a, b) => {
 
