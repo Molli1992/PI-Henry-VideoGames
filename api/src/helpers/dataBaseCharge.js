@@ -9,44 +9,44 @@ const populate = async function () {
 
         if (obtengoJuegos.length === 0) {
 
-            for (let i = 1; i < 6; i++) {
+            for (let i = 1; i < 50; i++) {
 
                 fetch(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=${i}`)
-                .then(response => response.json())
-                .then(async json => {
-    
-                    const juegosMapeados = json.results.map(juego => {
-    
-                        return {
-                            nombre: juego.name,
-                            descripcion: juego.tags.map((tag) => {
-                                return tag.name || "not found"
-                             }).join(", ").slice(0, 250),
-                            fecha_de_lanzamiento: juego.released,
-                            rating: juego.rating,
-                            plataformas: juego.platforms.map((plataforma) => {
-                               return plataforma.platform.name || "not found"
-                            }).join(", "),
-                            genero: juego.genres.map((genre) => {
-                                return genre.name || "not found"
-                             }).join(", "),
-                            imagen: juego.background_image
+                    .then(response => response.json())
+                    .then(async json => {
+
+                        const juegosMapeados = json.results.map(juego => {
+
+                            return {
+                                nombre: juego.name,
+                                descripcion: juego.tags.map((tag) => {
+                                    return tag.name || "not found"
+                                }).join(", ").slice(0, 250),
+                                fecha_de_lanzamiento: juego.released,
+                                rating: juego.rating,
+                                plataformas: juego.platforms.map((plataforma) => {
+                                    return plataforma.platform.name || "not found"
+                                }).join(", "),
+                                genero: juego.genres.map((genre) => {
+                                    return genre.name || "not found"
+                                }).join(", "),
+                                imagen: juego.background_image
+                            }
+
+                        })
+
+                        try {
+                            const juegosGuardados = await Videogame.bulkCreate(juegosMapeados);
+                            console.log(juegosGuardados);
+                        } catch (error) {
+                            console.log("guardando juegos", error);
                         }
-        
-                    })
-        
-                    try {
-                        const juegosGuardados = await Videogame.bulkCreate(juegosMapeados);
-                        console.log(juegosGuardados);
-                    } catch (error) {
-                        console.log("guardando juegos", error);
-                    }
-    
-                });
+
+                    });
             }
 
 
-           
+
         }
 
     } catch (error) {

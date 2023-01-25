@@ -89,7 +89,7 @@ export default function GameCard() {
         )
 
     } else return (
-        <div>Game not foound</div>
+        <div>Loading...</div>
     )
 
 };
