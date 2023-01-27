@@ -9,16 +9,17 @@ export default function Home(props) {
 
     var nextHandler;
     var prevHandler;
+    var nextHandler10;
+    var prevHandler10;
     var handleSearchNombre;
     var handleFilterGen;
     var handleFilterGame;
     var handleSortAsc;
     var handleSortDes;
     var handleDelete;
-    var handleSortRating;
+    var handleSortRatingDes;
+    var handleSortRatingAsc;
     var games;
-    var allGames;
-    var genres;
 
     const dispatch = useDispatch();
 
@@ -29,8 +30,8 @@ export default function Home(props) {
 
     }, [dispatch]);
 
-    allGames = useSelector((state) => state?.videogames);
-    genres = useSelector((state) => state?.genres);
+    const allGames = useSelector((state) => state?.videogames);
+    const genres = useSelector((state) => state?.genres);
 
     useEffect(() => {
         if (allGames && allGames.length) {
@@ -78,18 +79,24 @@ export default function Home(props) {
 
         nextHandler = () => {
 
-            const totalElementos = allGames.length;
+            try {
 
-            const nextPage = currentPage + 1;
+                const totalElementos = allGames.length;
 
-            const firstIndex = nextPage * ITEMS_PER_PAGE;
+                const nextPage = currentPage + 1;
 
-            if (nextPage >= totalElementos / ITEMS_PER_PAGE) return;
+                const firstIndex = nextPage * ITEMS_PER_PAGE;
 
-            allGames = allGames.splice(firstIndex, ITEMS_PER_PAGE)
+                if (nextPage >= totalElementos / ITEMS_PER_PAGE) return;
 
-            setItems([...allGames])
-            setCurrentPage(nextPage);
+                setItems([...allGames].splice(firstIndex, ITEMS_PER_PAGE))
+                setCurrentPage(nextPage);
+
+            } catch (error) {
+
+                console.log(error)
+
+            }
 
         };
 
@@ -101,49 +108,80 @@ export default function Home(props) {
 
             const firstIndex = prevPage * ITEMS_PER_PAGE;
 
-            allGames = allGames.splice(firstIndex, ITEMS_PER_PAGE)
+            setItems([...allGames].splice(firstIndex, ITEMS_PER_PAGE))
+            setCurrentPage(prevPage);
 
-            setItems([...allGames])
+        };
+
+        nextHandler10 = () => {
+
+            try {
+
+                const totalElementos = allGames.length;
+
+                const nextPage = currentPage + 10;
+
+                const firstIndex = nextPage * ITEMS_PER_PAGE;
+
+                if (nextPage >= totalElementos / ITEMS_PER_PAGE) return;
+
+                setItems([...allGames].splice(firstIndex, ITEMS_PER_PAGE))
+                setCurrentPage(nextPage);
+
+            } catch (error) {
+
+                console.log(error)
+
+            }
+
+        };
+
+        prevHandler10 = () => {
+
+            const prevPage = currentPage - 10;
+
+            if (prevPage < 0) return;
+
+            const firstIndex = prevPage * ITEMS_PER_PAGE;
+
+            setItems([...allGames].splice(firstIndex, ITEMS_PER_PAGE))
             setCurrentPage(prevPage);
 
         };
 
         handleSearchNombre = (e) => {
 
-            allGames = allGames.filter((dato) => {
+            setItems([...allGames].filter((dato) => {
                 return dato.nombre.toLowerCase().includes(e.target.value.toLowerCase())
-            })
+            }))
 
-            setItems([...allGames])
             setCurrentPage(0)
         };
 
         handleFilterGen = (e) => {
 
-            allGames = allGames.filter((dato) => {
+            setItems([...allGames].filter((dato) => {
                 return dato.genero.toLowerCase().includes(e.target.value.toLowerCase())
-            })
+            }))
 
-            setItems([...allGames])
             setCurrentPage(0)
         };
 
         handleFilterGame = (e) => {
 
-            allGames = allGames.filter((dato) => {
+            setItems([...allGames].filter((dato) => {
                 return dato?.nombre?.toLowerCase().includes(e?.target?.value?.toLowerCase())
-            })
+            }))
 
-            setItems([...allGames])
             setCurrentPage(0)
         };
 
 
         handleSortDes = (e) => {
 
-            setCurrentPage(0);
+            let orderDes = allGames;
 
-            allGames.sort((a, b) => {
+            orderDes.sort((a, b) => {
 
                 if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) {
                     return -1;
@@ -162,16 +200,13 @@ export default function Home(props) {
 
             if (nextPage >= totalElementos / ITEMS_PER_PAGE) return;
 
-            setItems([...allGames].splice(firstIndex, ITEMS_PER_PAGE))
+            setItems([...allGames].splice(firstIndex, ITEMS_PER_PAGE));
+            setCurrentPage(0);
         };
-
-
 
 
         handleSortAsc = (e) => {
 
-            setCurrentPage(0);
-
             allGames.sort((a, b) => {
 
                 if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) {
@@ -191,13 +226,12 @@ export default function Home(props) {
 
             if (nextPage >= totalElementos / ITEMS_PER_PAGE) return;
 
-            setItems([...allGames].splice(firstIndex, ITEMS_PER_PAGE))
+            setItems([...allGames].splice(firstIndex, ITEMS_PER_PAGE));
+            setCurrentPage(0);
         };
 
 
-        handleSortRating = (e) => {
-
-            setCurrentPage(0);
+        handleSortRatingDes = (e) => {
 
             allGames.sort((a, b) => {
 
@@ -218,7 +252,33 @@ export default function Home(props) {
 
             if (nextPage >= totalElementos / ITEMS_PER_PAGE) return;
 
-            setItems([...allGames].splice(firstIndex, ITEMS_PER_PAGE))
+            setItems([...allGames].splice(firstIndex, ITEMS_PER_PAGE));
+            setCurrentPage(0);
+        };
+
+        handleSortRatingAsc = (e) => {
+
+            allGames.sort((a, b) => {
+
+                if (a.rating.toLowerCase() > b.rating.toLowerCase()) {
+                    return -1;
+                }
+                if (b.rating.toLowerCase() > a.rating.toLowerCase()) {
+                    return 1;
+                }
+                return 0;
+            });
+
+            const totalElementos = allGames.length;
+
+            const nextPage = currentPage;
+
+            const firstIndex = nextPage * ITEMS_PER_PAGE;
+
+            if (nextPage >= totalElementos / ITEMS_PER_PAGE) return;
+
+            setItems([...allGames].splice(firstIndex, ITEMS_PER_PAGE));
+            setCurrentPage(0);
         };
 
         handleDelete = (e) => {
@@ -289,8 +349,12 @@ export default function Home(props) {
                             Ordena de Z-A
                         </button>
 
-                        <button onClick={handleSortRating} className="bgc-azul">
-                            Ordena por rating
+                        <button onClick={handleSortRatingDes} className="bgc-azul">
+                            Ordena por rating Menor-Mayor
+                        </button>
+
+                        <button onClick={handleSortRatingAsc} className="bgc-azul">
+                            Ordena por rating Mayor-Menor
                         </button>
 
                         <button onClick={handleDelete} className="bgc-verde">Refresh</button>
@@ -324,6 +388,12 @@ export default function Home(props) {
                         <button onClick={prevHandler} className="bgc-gris">Prev</button>
                         {currentPage}
                         <button onClick={nextHandler} className="bgc-gris">Next</button>
+                    </div>
+
+                    <div className='home-paginado'>
+                        <button onClick={prevHandler10} className="bgc-gris">Prev - 10</button>
+                        {currentPage}
+                        <button onClick={nextHandler10} className="bgc-gris">Next + 10</button>
                     </div>
 
                 </main>

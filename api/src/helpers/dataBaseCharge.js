@@ -9,7 +9,7 @@ const populate = async function () {
 
         if (obtengoJuegos.length === 0) {
 
-            for (let i = 1; i < 50; i++) {
+            for (let i = 1; i < 54; i++) {
 
                 fetch(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=${i}`)
                     .then(response => response.json())

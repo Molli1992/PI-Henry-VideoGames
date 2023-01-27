@@ -13,45 +13,65 @@ const router = Router();
 
 router.get("/videogames", async (req, res) => {
 
-    const nombre = req.query.nombre;
+    try {
 
-    if (nombre) {
-        const juego = await Videogame.findAll({
-            where: { nombre: nombre }
-        });
+        const nombre = req.query.nombre;
 
-        if (juego.length === 0) {
-            return res.status(404).send("juego no encontrado")
+        if (nombre) {
+            const juego = await Videogame.findAll({
+                where: { nombre: nombre }
+            });
+
+            if (juego.length === 0) {
+                return res.status(404).send("juego no encontrado")
+            }
+
+            res.json(juego)
         }
 
-        res.json(juego)
+        else {
+            const juegos = await Videogame.findAll();
+
+            if (juegos.length !== 0) {
+                return res.json(juegos);
+            };
+
+            res.status(404).send("juegos no encotrados");
+        }
+
+    } catch (error) {
+
+        console.log(error)
+
     }
 
-    else {
-        const juegos = await Videogame.findAll();
 
-        if (juegos.length !== 0) {
-            return res.json(juegos);
-        };
-
-        res.status(404).send("juegos no encotrados");
-    }
 
 });
 
 router.get("/videogames/:id", async (req, res) => {
 
-    const { id } = req.params;
+    try {
 
-    const juego = await Videogame.findAll({
-        where: { id: id }
-    });
+        const { id } = req.params;
 
-    if (juego) {
-        return res.json(juego)
-    };
+        const juego = await Videogame.findAll({
+            where: { id: id }
+        });
 
-    res.status(404).send("juego no encontrado");
+        if (juego) {
+            return res.json(juego)
+        };
+
+        res.status(404).send("juego no encontrado");
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+
 });
 
 
@@ -66,62 +86,62 @@ router.post("/videogames", async (req, res) => {
     console.log(req.body);
 
 
-            try {
-    
-                const juegosInternos = await Videogame.findAll();
-                const ultimoIDInterno = juegosInternos.length + 1;
+    try {
 
-                console.log(ultimoIDInterno);
-        
-                const juego = await Videogame.create({
-                    ...req.body, id: ultimoIDInterno
-                });
-        
-                console.log(juego);
-                return res.status(201).json(juego);
-        
-            } catch (error) {
-                console.log(error);
-                return res.status(404).send("Error en alguno de los datos provistos");
-            }
-            
+        const juegosInternos = await Videogame.findAll();
+        const ultimoIDInterno = juegosInternos.length + 1;
+
+        console.log(ultimoIDInterno);
+
+        const juego = await Videogame.create({
+            ...req.body, id: ultimoIDInterno
         });
+
+        console.log(juego);
+        return res.status(201).json(juego);
+
+    } catch (error) {
+        console.log(error);
+        return res.status(404).send("Error en alguno de los datos provistos");
+    }
+
+});
 
 router.get("/genres", async (req, res) => {
 
     fetch(`https://api.rawg.io/api/genres?key=${YOUR_API_KEY}`)
-                .then(response => response.json())
-                .then(async json => {
+        .then(response => response.json())
+        .then(async json => {
 
-                    const apiGeneros = json;
+            const apiGeneros = json;
 
-                    try {
+            try {
 
-                        const generosMapeados = apiGeneros.results.map(genero => {
-                            return genero.name
-                        })
+                const generosMapeados = apiGeneros.results.map(genero => {
+                    return genero.name
+                })
 
-                        console.log(generosMapeados);
+                console.log(generosMapeados);
 
-                        for (let i = 0; i < generosMapeados.length; i++) {
+                for (let i = 0; i < generosMapeados.length; i++) {
 
-                            await Genero.findOrCreate({
-                                where: { nombre: generosMapeados[i] },
-                              });
-                            
-                        }
+                    await Genero.findOrCreate({
+                        where: { nombre: generosMapeados[i] },
+                    });
 
-                        const generos = await Genero.findAll();
-                                
-                        res.status(200).json(generos);
-                
-                    } catch (error) {
-                        console.log(error);
-                        res.status(404).send("generos no encontrados");
-                    }
+                }
 
-                })  
-    });
+                const generos = await Genero.findAll();
+
+                res.status(200).json(generos);
+
+            } catch (error) {
+                console.log(error);
+                res.status(404).send("generos no encontrados");
+            }
+
+        })
+});
 
 
 module.exports = router;
