@@ -87,7 +87,7 @@ export default function Home(props) {
 
                 const firstIndex = nextPage * ITEMS_PER_PAGE;
 
-                if (nextPage >= totalElementos / ITEMS_PER_PAGE) return;
+                if (nextPage >= totalElementos / ITEMS_PER_PAGE || items.length >= 16 || items.length <= 14) return;
 
                 setItems([...allGames].splice(firstIndex, ITEMS_PER_PAGE))
                 setCurrentPage(nextPage);
@@ -104,7 +104,7 @@ export default function Home(props) {
 
             const prevPage = currentPage - 1;
 
-            if (prevPage < 0) return;
+            if (prevPage < 0 || items.length >= 16 || items.length <= 14) return;
 
             const firstIndex = prevPage * ITEMS_PER_PAGE;
 
@@ -123,7 +123,7 @@ export default function Home(props) {
 
                 const firstIndex = nextPage * ITEMS_PER_PAGE;
 
-                if (nextPage >= totalElementos / ITEMS_PER_PAGE) return;
+                if (nextPage >= totalElementos / ITEMS_PER_PAGE || items.length >= 16 || items.length <= 14) return;
 
                 setItems([...allGames].splice(firstIndex, ITEMS_PER_PAGE))
                 setCurrentPage(nextPage);
@@ -140,7 +140,7 @@ export default function Home(props) {
 
             const prevPage = currentPage - 10;
 
-            if (prevPage < 0) return;
+            if (prevPage < 0 || items.length >= 16 || items.length <= 14) return;
 
             const firstIndex = prevPage * ITEMS_PER_PAGE;
 
@@ -179,9 +179,7 @@ export default function Home(props) {
 
         handleSortDes = (e) => {
 
-            let orderDes = allGames;
-
-            orderDes.sort((a, b) => {
+            allGames.sort((a, b) => {
 
                 if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) {
                     return -1;
